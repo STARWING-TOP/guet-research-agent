@@ -1,0 +1,39 @@
+# --- secrets ---
+.env
+.env.*
+!.env.example
+
+# --- python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# --- data / models (大文件不进仓库) ---
+data/raw/*
+!data/raw/.gitkeep
+data/index/*
+!data/index/.gitkeep
+models/
+*.bin
+*.safetensors
+*.gguf
+
+# --- 运行产物 ---
+logs/
+*.log
+traces/
+eval/results/
+*.png
+*.gif
+!docs/*.png
+!docs/*.gif
+
+# --- editor ---
+.vscode/
+.idea/
+.DS_Store

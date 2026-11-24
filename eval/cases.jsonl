@@ -1,0 +1,5 @@
+{"id": "c01", "category": "simple", "question": "现在北京时间几点？", "expected_points": ["返回当天日期与时间"], "must_cite": false}
+{"id": "c02", "category": "tool", "question": "23 乘 47 再加 100 等于多少？", "expected_points": ["1181"], "must_cite": false}
+{"id": "c03", "category": "multi_hop", "question": "根据资料，XX 竞赛的报名截止时间是什么时候？距今还有几天？", "expected_points": ["截止日期", "剩余天数由 now 工具算出"], "must_cite": true}
+{"id": "c04", "category": "should_refuse", "question": "我们学校 2027 年的研究生招生简章写了什么？", "expected_points": ["资料中没有，明确拒答，不得编造"], "must_cite": false}
+{"id": "c05", "category": "rag", "question": "实验室的主要研究方向有哪些？", "expected_points": ["至少 2 个方向，且每个都有引用编号"], "must_cite": true}
