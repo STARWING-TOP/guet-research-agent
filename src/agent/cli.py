@@ -22,7 +22,12 @@ console = Console()
 
 
 def _ask(question: str, verbose: bool) -> None:
-    result = run_agent(question, verbose=verbose)
+    try:
+        result = run_agent(question, verbose=verbose)
+    except RuntimeError as e:
+        # 最常见的就是忘配 .env，给一句人话，而不是甩一屏 traceback
+        console.print(f"[bold red]✗ {e}[/bold red]")
+        raise SystemExit(1) from e
     console.print(Panel(Markdown(result["answer"]), title="回答", border_style="cyan"))
     console.print(f"[dim]steps={result['steps']} | {result['usage']}[/dim]")
 

@@ -11,11 +11,23 @@
 cp .env.example .env          # Windows: copy .env.example .env
 # 编辑 .env，填入 DEEPSEEK_API_KEY
 
-uv sync                       # 装依赖
+uv sync                       # 装基础依赖（约 35 个包，几十秒）
 uv run pytest -q              # 冒烟测试（不需要 API key）
 uv run python -m agent.cli --tool
 uv run python -m agent.cli "现在几点，顺便算一下 23*47" --verbose
 ```
+
+> **W4 才需要的检索依赖**（torch cu128 + sentence-transformers + chromadb，约 2.6GB）：
+> `uv sync --extra rag`。官方源在国内约 2MB/s，建议挂着跑二十分钟。
+
+## 环境说明（Windows 踩坑记录）
+
+| 坑 | 现象 | 处理 |
+|---|---|---|
+| `zoneinfo` 找不到时区 | `ZoneInfoNotFoundError: Asia/Shanghai` | 依赖里加 `tzdata`（已加） |
+| RTX 5050 是 Blackwell(sm_120) | `no kernel image is available` | 必须用 cu128 的 torch（已在 pyproject 配好） |
+| 中文输出乱码 | 终端里中文变方块/问号 | 设 `PYTHONUTF8=1`、`PYTHONIOENCODING=utf-8`（已设） |
+| C 盘只剩 49GB | 模型和缓存吃满 | `HF_HOME`、`UV_CACHE_DIR` 全部指向 F:（已设） |
 
 ## 架构
 
