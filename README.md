@@ -70,7 +70,9 @@ question
 
 ## 路线图
 
-- [x] W1–W2 环境 + Python 基础 + 首次 function calling
+逐日进度见 **[docs/python-14days.md](docs/python-14days.md)**，踩坑与每日笔记记在 [docs/notes.md](docs/notes.md)。
+
+- [x] W1–W2 环境 + Python 基础 + 首次 function calling（环境/API/仓库已打通）
 - [ ] W3 合上 `agent.py` 手写三遍 ReAct / Plan-and-Solve / Reflection
 - [ ] W4 RAG 底座（bge-m3 + Chroma + reranker）
 - [ ] W5 串联 v1（5 个工具 + 引用）
@@ -87,6 +89,7 @@ src/agent/      核心代码
 eval/           评测集与脚本
 data/raw/       原始语料（不进 git）
 data/index/     向量库（不进 git）
+docs/           学习清单与笔记
 tests/          测试
 ```
 
