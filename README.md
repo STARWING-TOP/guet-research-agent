@@ -31,6 +31,8 @@ uv run python -m agent.cli "现在几点，顺便算一下 23*47" --verbose
 
 ## 架构
 
+> 完整的流程图、`messages` 演化过程、四个关键设计决策见 **[docs/architecture.md](docs/architecture.md)**（GitHub 上 Mermaid 图会直接渲染）。
+
 ```
 question
    │
