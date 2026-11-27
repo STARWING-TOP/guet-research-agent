@@ -30,8 +30,8 @@ def top_chars(text: str, k: int = 5) -> list[tuple[str, int]]:
         所以整个函数可以写成 1 行：直接 return。
     """
     # TODO(你): 1 行
-    raise NotImplementedError("top_chars 还没写")
 
+    return Counter(text).most_common(k)
 
 # ======================================================================
 # 练习 2：文本分块（W4 检索要用，今天的重点）
@@ -81,8 +81,11 @@ def chunk_text(text: str, size: int, overlap: int) -> list[str]:
     chunks: list[str] = []
 
     # TODO(你): 大约 6 行。照着上面的提示写 for 循环。
-    raise NotImplementedError("chunk_text 还没写")
-
+    for i in range(0, len(text), step):
+        piece = text[i:i+size]
+        chunks.append(piece)
+        if i + size >= len(text):
+            break
     return chunks
 
 
@@ -95,7 +98,8 @@ def reverse_str(s: str) -> str:
     提示：切片的第三个参数是步长，-1 表示从后往前。
     """
     # TODO(你): 1 行
-    raise NotImplementedError("reverse_str 还没写")
+    return s[: : -1]
+    
 
 
 def odd_chars(s: str) -> str:
@@ -104,7 +108,8 @@ def odd_chars(s: str) -> str:
     提示：s[起始:结束:步长]，步长 2 就是每隔一个取一个。
     """
     # TODO(你): 1 行
-    raise NotImplementedError("odd_chars 还没写")
+    return s[::2]
+    
 
 
 def trim_ends(s: str, n: int = 3) -> str:
@@ -113,4 +118,5 @@ def trim_ends(s: str, n: int = 3) -> str:
     提示：负数下标表示从末尾倒数。
     """
     # TODO(你): 1 行
-    raise NotImplementedError("trim_ends 还没写")
+    return s[n:-n]
+    
