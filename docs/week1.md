@@ -173,7 +173,7 @@
 - `uv init/add/run/sync` 与 `pyproject.toml` 的关系
 - `pathlib.Path` 替代字符串拼路径
 
-**写（今天的大头，300 行）**
+**写（今天的大头，120 行）**
 `scripts/repo_stats.py`：
 
 ```
@@ -196,7 +196,10 @@ uv run python scripts/repo_stats.py --path . --json
 
 **验收**：`uv run python scripts/repo_stats.py --top 5` 输出的是**本项目真实数据**（`.py` 文件数、总行数）。
 
-**commit**：`day6: 300 行 CLI 工具 repo_stats`
+**commit**：`day6: 120 行 CLI 工具 repo_stats`
+
+> 为什么从 300 行降到 120 行：300 行的边际收益很低，省下的 2 小时给 W2 的 asyncio
+> （那是面试必问、也是本项目 agent 循环的地基）。细节见 `docs/roadmap.md`。
 
 ---
 
@@ -205,7 +208,8 @@ uv run python scripts/repo_stats.py --path . --json
 - [ ] 6 个 commit，日期连续
 - [ ] 不看资料，20 分钟内写出 `parse_env` + `chunk_text` + `retry`
 - [ ] `uv run pytest -q` 仍然全绿
-- [ ] `docs/notes.md` 有 18 条笔记（6 天 × 3 条）
+- [ ] `docs/notes.md` 有 18 条笔记（6 天 × 3 条，**现在它就是"面试问答卡"库**，见 `docs/roadmap.md`）
+- [ ] Day 4 起，每个练习**自己补 2 条测试**（不再是"别人写测试我变绿"）
 - [ ] 能解释：`b = a` 是引用、默认参数只求值一次、生成器只能迭代一次、`@wraps` 为什么重要
 
 **任何一条没做到**：周日不要开始 Day 7，先补。Day 7 的装饰器 + pydantic 是 W3 的地基。
