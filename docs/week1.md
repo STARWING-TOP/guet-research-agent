@@ -208,7 +208,7 @@ uv run python scripts/repo_stats.py --path . --json
 - [ ] 6 个 commit，日期连续
 - [ ] 不看资料，20 分钟内写出 `parse_env` + `chunk_text` + `retry`
 - [ ] `uv run pytest -q` 仍然全绿
-- [ ] `docs/notes.md` 有 18 条笔记（6 天 × 3 条，**现在它就是"面试问答卡"库**，见 `docs/roadmap.md`）
+- [ ] `docs/notes.md` 有 **6 条笔记（Day 1–6 每天 1 条）+ 3 张面试卡**（口径见 `docs/roadmap.md`）
 - [ ] Day 4 起，每个练习**自己补 2 条测试**（不再是"别人写测试我变绿"）
 - [ ] 能解释：`b = a` 是引用、默认参数只求值一次、生成器只能迭代一次、`@wraps` 为什么重要
 
