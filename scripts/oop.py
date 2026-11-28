@@ -68,8 +68,9 @@ class Chunk:
         if start < 0:
             raise ValueError(f"start 不能为负：{start}")
 
-        # TODO(你·A1): 2 行 —— 校验 end 不能小于 start，抛 ValueError
-        #   照上面那行写，消息格式：end({end}) 不能小于 start({start})
+        # TODO(你·A1): 2 行 —— 校验 end 不能小于 start，抛 ValueError()
+        if end < start:
+            raise ValueError(f"end({end}) 不能小于 start({start})")
 
         # 存字段（已写好。注意每个都要带 self.，漏了 self. 就只是个局部变量，对象上什么都没有）
         self.text = text
@@ -89,7 +90,7 @@ class Chunk:
             {x!r} 就是 repr(x)，会让字符串自动带上引号 —— 调试时靠这个区分
             '123'（字符串）和 123（数字）。
         """
-        raise NotImplementedError("A2: 还没写 __repr__")
+        return f"Chunk(source={self.source!r}, start={self.start!r}, text={self.text!r})"
 
     # TODO(你·A3): 1 行
     def __str__(self) -> str:
@@ -97,7 +98,7 @@ class Chunk:
 
         期望：str(Chunk("你好", "guet.md", 0, 2)) == "你好"
         """
-        raise NotImplementedError("A3: 还没写 __str__")
+        return self.text
 
     # TODO(你·A4): 1 行
     @property
@@ -110,7 +111,7 @@ class Chunk:
         不是这个属性 —— 类里的名字不会自动进入方法的作用域（不像 C++ 的成员函数），
         所以不会自己调自己造成递归。C++ 里你写 this->len() 才叫成员，Python 不这样找。
         """
-        raise NotImplementedError("A4: 还没写 len")
+        return len(self.text)
 
     # TODO(你·A5): 3 行
     def __eq__(self, other: object) -> bool:
@@ -130,7 +131,12 @@ class Chunk:
         坑：定义了 __eq__ 之后，__hash__ 会被自动设成 None，这个类就
         不能放进 set、也不能当 dict 的 key 了。真实项目要用 set 去重时得补 __hash__。
         """
-        raise NotImplementedError("A5: 还没写 __eq__")
+        if not isinstance(other, Chunk):
+            return NotImplemented
+        return (self.source, self.start, self.text) == (
+            other.source, other.start, other.text,
+        )
+
 
 
 # ======================================================================
@@ -164,7 +170,7 @@ class ToolError(Exception):
 
         提示：return f"[{self.tool}] {self.message}"
         """
-        raise NotImplementedError("B1: 还没写 ToolError.__str__")
+        return f"[{self.tool}] {self.message}"
 
 
 class EnvParseError(ToolError):
@@ -186,7 +192,7 @@ class EnvParseError(ToolError):
         注意 super() 不能换成 ToolError.__init__ 写死 —— 以后要是中间插一层
         子类，写死的那行会绕过它；super() 是按 MRO 找的。
         """
-        raise NotImplementedError("B2: 还没写 EnvParseError.__init__")
+        super().__init__(message, tool="env")
 
 
 # ======================================================================
@@ -219,15 +225,13 @@ class EnvFile:
             # 排查时不会丢掉"到底是哪个文件没找到"的线索。这条已写好，当模板。
             raise EnvParseError(f"文件不存在：{self.path}") from e
 
-        # TODO(你·C1): 4 行 —— 用 parse_env 解析，并把 ValueError 换成 EnvParseError
-        #   照上面的模板：
-        #       try:
-        #           data = parse_env(text)
-        #       except ValueError as e:
-        #           raise EnvParseError(f"{self.path.name} 解析失败：{e}") from e
-        #       self._data = data
-        #       return data
-        raise NotImplementedError("C1: 还没写 EnvFile.load 的解析部分")
+        try:
+            data = parse_env(text)
+        except ValueError as e:
+            raise EnvParseError(f"{self.path.name} 解析失败：{e}") from e
+
+        self._data = data
+        return data
 
     # TODO(你·C2): 1 行
     def to_dict(self) -> dict[str, str]:
@@ -239,7 +243,7 @@ class EnvFile:
         如果直接 return self.load()，就是把这个对象内部缓存的字典交出去 ——
         调用方一个 d.pop() 就能把你的缓存搞坏。这是封装最容易漏的一条。
         """
-        raise NotImplementedError("C2: 还没写 to_dict")
+        return dict(self.load())
 
     # TODO(你·C3): 1 行
     @property
@@ -251,7 +255,7 @@ class EnvFile:
 
         提示：return tuple(self.load())
         """
-        raise NotImplementedError("C3: 还没写 keys")
+        return tuple(self.load())
 
     def __repr__(self) -> str:
         # 已写好。注意 __repr__ 里**不读文件**：repr 可能在任何时候被调用
@@ -284,7 +288,16 @@ def call_tool(func: Callable[..., Any], **kwargs: Any) -> dict[str, Any]:
     把正常逻辑放 else 里，try 块就只剩"可能炸的那一行"，一眼能看出保护范围。
     """
     # TODO(你·D1): 约 10 行，照上面 1~5 写
-    raise NotImplementedError("D1: 还没写 call_tool")
+    try:
+        value = func(**kwargs)
+    except ToolError as e:
+        return {"ok": False, "error": str(e), "retryable": e.retryable}
+    except Exception as e:
+        return {"ok": False, "error": f"{type(e).__name__}: {e}", "retryable": False}
+    else:
+        return {"ok": True, "value": value}
+    finally:
+        CALLS.append(func.__name__)
 
 
 # ----------------------------------------------------------------------
